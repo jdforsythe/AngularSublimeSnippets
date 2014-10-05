@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+app.config(function($routeProvider) {
+	$routeProvider.
+		when('/', {
+			templateUrl: '$1.html',
+			controller: '$2Controller'
+		}).
+		when('/$3', {
+			templateUrl: '$4.html',
+			controller: '$5Controller'
+		}).
+		when('/$3/:$5Id', {
+			templateUrl: '$6.html',
+			controller: '$7Controller',
+			resolve: {
+				"$8": function($9) {
+					return $10;
+				}
+			}
+		})
+		.otherwise({
+			redirectTo: '/'
+		});
+});$0
+]]></content>
+	<tabTrigger>ngroute</tabTrigger>
+	<scope>source.js, source.js.embedded.html, text.plain</scope>
+</snippet>

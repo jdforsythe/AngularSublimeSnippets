@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+(function() {
+	function $1Directive() {
+		return {
+			restrict: '${2:AEC}',
+			link: function(\$scope, el, attrs) {
+				${3:var case = attrs.case;
+
+				function changeCase(el, case) {
+					var text = el;
+					var value = text.value;
+					if (case.toLowerCase() == 'lower') {
+						newValue = value.toLowerCase();
+					\}
+					else {
+						newValue = value.toUpperCase();
+					\}
+					text.value = newValue;
+				\}
+
+				el.bind('keyup keydown', function(e) {
+					var _case = case;
+					var _el = el[0];
+					changeCase(_el, _case);
+				\});}
+			}
+		};
+	}
+
+	angular.module('$1Directive', [])
+			.directive('${1/(.+)/\l\1/}Directive', $1Directive);
+})();
+]]></content>
+	<tabTrigger>ngdirective</tabTrigger>
+	<scope>source.js, source.js.embedded.html, text.plain</scope>
+</snippet>

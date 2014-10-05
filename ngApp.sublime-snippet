@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+var app = angular.module('$1', [
+	'ngRoute',
+	'ngAnimate',
+	'ui.bootstrap',
+	'toaster',
+	'angular-loading-bar'$2
+]);$0
+]]></content>
+	<tabTrigger>ngapp</tabTrigger>
+	<scope>source.js, source.js.embedded.html, text.plain</scope>
+</snippet>

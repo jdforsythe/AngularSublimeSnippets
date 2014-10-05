@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+(function() {
+	function $1Factory(\$http, \$location, csrf_token) {
+		var prepare$1 = function(${1/(.+)/\l\1/}) {
+			${1/(.+)/\l\1/}.checkboxBoolean = (${1/(.+)/\l\1/}.checkboxBoolean ? '1' : '0');
+			${1/(.+)/\l\1/}.csrf_token = csrf_token;
+			return ${1/(.+)/\l\1/};
+		};
+
+		return {
+			list: function() {
+				return \$http.get('${2:/api/v1/plural}');
+			},
+			get: function(${1/(.+)/\l\1/}_id) {
+				return \$http.get('${2:/api/v1/plural}/'+${1/(.+)/\l\1/}_id);
+			},
+			add: function(${1/(.+)/\l\1/}) {
+				// todo: should be sanitizing this
+				return \$http.post('${2:/api/v1/plural}', prepare$1(${1/(.+)/\l\1/}));
+			},
+			delete: function(${1/(.+)/\l\1/}_id) {
+				return \$http.delete('${2:/api/v1/plural}'+${1/(.+)/\l\1/}_id);
+			},
+			update: function(${1/(.+)/\l\1/}_id, data) {
+				// todo: should be sanitizing this
+				return \$http.put('${2:/api/v1/plural}'+${1/(.+)/\l\1/}_id, data);
+			}
+		};
+	}
+	app.factory('$1Factory', $1Factory);
+})();
+]]></content>
+	<tabTrigger>ngrest</tabTrigger>
+	<scope>source.js, source.js.embedded.html, text.plain</scope>
+</snippet>

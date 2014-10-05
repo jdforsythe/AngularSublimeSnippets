@@ -1,0 +1,126 @@
+<snippet>
+	<content><![CDATA[
+<html ng-app="$1">
+	<head>
+		<meta charset="utf-8">
+		<title>${2:My Brand}</title>
+
+		<!-- lodash -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.compat.min.js"></script>
+
+		<!-- angular -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-animate.min.js"></script>
+
+		<!-- angularjs-toaster notifications -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.4/toaster.css"/>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.4/toaster.js"></script>
+
+		<!-- angular-ui bootstrap - twitter bootstrap implemented in pure angular (still need bootstrap css) -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
+		<style type="text/css">
+			/* fix cursor for empty a tags - bootstrap requires empty href attrs to get a pointer, here we just define it */
+			.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+		</style>
+
+		<!-- angular loading bar -->
+		<link rel="stylesheet" href="/libs/loading-bar.min.css"/>
+		<script src="/libs/loading-bar.min.js"></script>
+		<style type="text/css">
+			/* we like our loading bar a little bigger */
+			#loading-bar .bar { height:10px; }
+		</style>
+
+		<!-- custom styles -->
+		<link rel="stylesheet" href="style.css"/>
+
+		<!-- custom angular files -->
+		<script src="app.js"></script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default" role="navigation" ng-controller="HeaderController">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapsable">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">${2:My Brand}</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="navbar-collapsable">
+					<ul class="nav navbar-nav">
+						<!-- todo: implement directive to auto select class="active" -->
+						<li ng-class="{'active': isActive('/')}"><a href="#/">Home</a></li>
+						<!--
+						<li class="dropdown">
+							<a href class="dropdown-toggle" data-toggle="dropdown">DropDown <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#/pageName">Page Name</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Something Else</a></li>
+							</ul>
+						</li>
+						-->
+					</ul>
+
+					<!-- login form is only hidden once the \$scope.userIsLoggedIn is set to true -->
+					<form ng-controller="AuthCtrl" class="navbar-form navbar-right" name="loginForm" ng-submit="login(credentials)" ng-hide="userIsLoggedIn()">
+						<div class="form-group">
+							<label for="username">Email:</label>
+							<input type="email" class="form-control" id="username" name="username" ng-required="true" ng-model="credentials.username"/>
+
+							<label for="password">Password:</label>
+							<input type="password" class="form-control" id="password" name="password" ng-required="true" ng-model="credentials.password"/>
+						</div>
+
+						<button type="submit" class="btn btn-default">
+							<span class="glyphicon glyphicon-log-in"></span> Login
+						</button>
+					</form>
+
+					<!-- logout button is only show once the \$scope.userIsLoggedIn is set to true -->
+					<div class="navbar-right" ng-show="userIsLoggedIn()">
+						Welcome, {{getCurrentUser().username}}!
+						<button type="button" class="btn btn-default navbar-btn" ng-click="logout()">
+							<span class="glyphicon glyphicon-log-out"></span> Logout
+						</button>
+					</div>
+
+				</div> <!-- .navbar-collapse -->
+			</div> <!-- .container-fluid -->
+		</nav>
+
+		<div ng-view></div>
+
+		<toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
+
+	</body>
+
+	<script type="text/javascript">
+		(function() {
+			function HeaderController(\$scope, \$location) {
+				\$scope.isActive = function(viewLocation) {
+					return (\$location.path().indexOf(viewLocation) == 0);
+				}
+			}
+			app.controller('HeaderController', HeaderController);
+		})();
+	</script>
+
+	<!-- Cross site request forgery token for CSRF prevention -->
+	<script>
+		app.constant('csrf_token', '<?= csrf_token() ?>');
+	</script>
+</html>
+]]></content>
+	<tabTrigger>nghtml</tabTrigger>
+	<scope>text.plain, text.html.basic, text.html.basic.angularjs</scope>
+</snippet>

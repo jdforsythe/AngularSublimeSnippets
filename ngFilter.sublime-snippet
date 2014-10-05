@@ -1,0 +1,65 @@
+<snippet>
+	<content><![CDATA[
+// usage:
+// | ${1/(.+)/\l\1/}:{needle: \$viewValue, allProperties: false, properties:['propName']}
+(function() {
+
+	var getAllStringProperties = function(obj) {
+		var strings = [];
+		for (var prop in obj) {
+			if (obj.hasOwnProperty(prop) && typeof obj[prop] === 'string && prop !== '\$\$hashKey') {
+				strings.push(obj[prop]);
+			}
+		}
+		return strings;
+	};
+
+	var getProperties = function(obj, properties) {
+		var strings = [];
+		for (var i=0, len=properties.length; i<len; i++) {
+			strings.push(obj[properties[i]]);
+		}
+		return strings;
+	};
+
+	function ${1}Filter() {
+		return function(haystack, options) {
+			var needle = options.needle;
+			var searchAllProperties = options.AllProperties || false;
+			var propertiesToSearch = options.properties || false;
+			var results = [];
+
+			for (var i=0, len=haystack.length; i<len; i++) {
+				var testObj = haystack[i];
+				var searchStrings = [];
+
+				if (properties) {
+					searchStrings = getProperties(testObj, properties);
+				}
+
+				else if (allProperties) {
+					searchString = getAllStringProperties(testObj);
+				}
+
+				else {
+					searchStrings = [testObj];
+				}
+
+				for (var j=0, slen=searchStrings.length; j<slen; j++) {
+					if(searchStrings[j].toLowerCase().indexOf(needle.toLowerCase()) !== -1) {
+						results.push(testObj);
+						break;
+					}
+				}
+			}
+			return results;
+		}
+	}
+
+	angular.module('myFilters', [])
+		   .filter('${1/(.+)/\l\1/}', ${1});
+})();
+]]></content>
+	<tabTrigger>ngfilter</tabTrigger>
+	<scope>source.js, source.js.embedded.html, text.plain</scope>
+</snippet>
