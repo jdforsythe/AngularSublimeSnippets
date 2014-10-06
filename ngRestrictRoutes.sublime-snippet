@@ -1,21 +1,22 @@
 <snippet>
 	<content><![CDATA[
-app.run(function($rootScope, $location, AuthFactory, toaster) {
-	$rootScope.$on('$routeChangeStart', function(event, next, current) {
+(function() {
+	function Run(\$rootScope, \$location, AuthFactory, toaster) {
 		// whitelist routes that DO NOT require auth
 		var routesNotRequiringAuth = ['', '/'];
 
-		if (!_(routesNotRequiringAuth).contains($location.path()) &&
+		if (!_(routesNotRequiringAuth).contains(\$location.path()) &&
 			!AuthFactory.userIsLoggedIn()) {
 			// provide an error message
 			toaster.pop('error', 'Not Authorized!', 'You must log in to access this area.');
 
 			// set location to redirect when accessing an unauthorized route
 			// this location must be in the whitelist or it will cause an infinite redirect
-			$location.pah('/');
+			\$location.path('/');
 		}
-	});
-});
+	}
+	app.run(['\$rootScope', '\$location', 'AuthFactory', 'toaster', Run]);
+})();
 ]]></content>
 	<tabTrigger>ngrestrictroutes</tabTrigger>
 	<scope>source.js, source.js.embedded.html, text.plain</scope>

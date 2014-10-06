@@ -1,44 +1,47 @@
 <snippet>
 	<content><![CDATA[
-app.config(function($httpProvider) {
-	var handleHTTPErrors = function($location, $q, AuthFactory, toaster) {
-		// if the $http response is successful, just pass along the response
-		var success = function(response) {
-			return response;
+(function() {
+	function Config(\$httpProvider) {
+		var handleHTTPErrors = function(\$location, \$q, AuthFactory, toaster) {
+			// if the \$http response is successful, just pass along the response
+			var success = function(response) {
+				return response;
+			};
+
+			// if the \$http response is an error and respond appropriately
+			var error = function(response) {
+
+				// HTTP NotAuthorized 401
+				if (response.status === 401) {
+					AuthFactory.unsetSession(); // unset user session data
+					toaster.pop('error', 'Not Authorized', response.data.message);
+					\$location.path('/');
+					return \$q.reject(response);
+				}
+
+				// HTTP Forbidden 403
+				else if (response.status === 403) {
+					toaster.pop('error', 'Forbidden!', response.data.message);
+					\$location.path('/');
+					return \$q.reject(response);
+				}
+
+				// all other errors just get passed
+				else {
+					return \$q.reject(response);
+				}
+			};
+
+			return function(promise) {
+				return promise.then(success, error);
+			};
 		};
 
-		// if the $http response is an error and respond appropriately
-		var error = function(response) {
-
-			// HTTP NotAuthorized 401
-			if (response.status === 401) {
-				AuthFactory.unsetSession(); // unset user session data
-				toaster.pop('error', 'Not Authorized', response.data.message);
-				$location.path('/');
-				return $q.reject(response);
-			}
-
-			// HTTP Forbidden 403
-			else if (response.status === 403) {
-				toaster.pop('error', 'Forbidden!', response.data.message);
-				$location.path('/');
-				return $q.reject(response);
-			}
-
-			// all other errors just get passed
-			else {
-				return $q.reject(response);
-			}
-		};
-
-		return function(promise) {
-			return promise.then(success, error);
-		};
-	};
-
-	// add this method to the interceptors on the $httpProvider
-	$httpProvider.responseInterceptors.push(handleHTTPErrors);
-});
+		// add this method to the interceptors on the \$httpProvider
+		\$httpProvider.responseInterceptors.push(handleHTTPErrors);
+	}
+	app.config(['\$httpProvider', Config]);
+})();
 ]]></content>
 	<tabTrigger>nghttperrors</tabTrigger>
 	<scope>source.js, source.js.embedded.html, text.plain</scope>

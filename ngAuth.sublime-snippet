@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 (function() {
-	function AuthFactory($http, $location, SessionFactory, $sanitize, csrf_token) {
+	function AuthFactory(\$http, \$location, SessionFactory, \$sanitize, csrf_token) {
 
 		var cacheSession = function(response) {
 			SessionFactory.setUser(response.id, response.username);
@@ -13,19 +13,19 @@
 
 		var sanitizeCredentials = function(credentials) {
 			return {
-				username: $sanitize(credentials.username),
-				password: $sanitize(credentials.password),
+				username: \$sanitize(credentials.username),
+				password: \$sanitize(credentials.password),
 				csrf_token: csrf_token
 			};
 		};
 
 		return {
 			login: function(credentials) {
-				return $http.post('/auth/login', sanitizeCredentials(credentials))
+				return \$http.post('/auth/login', sanitizeCredentials(credentials))
 							.success(cacheSession);
 			},
 			logout: function() {
-				return $http.get('/auth/logout')
+				return \$http.get('/auth/logout')
 							.success(uncacheSession);
 			},
 			userIsLoggedIn: function() {
