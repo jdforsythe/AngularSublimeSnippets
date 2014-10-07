@@ -19,8 +19,8 @@
 						return $10;
 					}
 				}
-			})
-			.otherwise({
+			}).
+			otherwise({
 				redirectTo: '/'
 			});
 	}
