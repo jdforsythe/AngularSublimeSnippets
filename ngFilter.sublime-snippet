@@ -7,7 +7,7 @@
 	var getAllStringProperties = function(obj) {
 		var strings = [];
 		for (var prop in obj) {
-			if (obj.hasOwnProperty(prop) && typeof obj[prop] === 'string && prop !== '\$\$hashKey') {
+			if (obj.hasOwnProperty(prop) && typeof obj[prop] === 'string' && prop !== '\$\$hashKey') {
 				strings.push(obj[prop]);
 			}
 		}
